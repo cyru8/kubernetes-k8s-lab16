@@ -51,3 +51,29 @@ The Go template is used to query and return properties of an object. Output the 
 
 kubectl get services -l app=examplehttpapp -o json
 
+###
+The Kubernetes API defines different objects to solve day-to-day problems which can be extended using Custom Resource Definitions.
+For example, Crontab will launch a Pod at particular times. A DaemonSet will ensure that a deployment is running on every node in the cluster, great for collecting and aggregating metrics.
+###
+A pod is a group of one or more Containers, with shared storage/network, and a specification for how to run the containers.
+More details at https://kubernetes.io/docs/concepts/workloads/pods/pod/
+###
+_Pro tip:_Working with a namespace for a period of time? Change the context to make a different namespace the default.
+kubectl config set-context $(kubectl config current-context) --namespace=testns; kubectl config get-contexts
+kubectl get pods
+###
+Kubectl can help scale the number of Pods running for a deployment, referred to as replicas.
+kubectl scale deployment examplehttpapp --replicas=5
+
+View the state of the scale with kubectl get deployments as you scale up/down, the number of Pods will update to reflect the desired configuration 
+kubectl get pods
+###
+Now the application is receiving data, if something goes wrong we need to be able to investigate. Using kubectl it's possible to view the logs for Pods.
+The command combines label selectors and querying the Go Template to get the first Pod name.
+kubectl logs $(kubectl get pods -l app=examplehttpapp -o go-template='{{(index .items 0).metadata.name}}')
+###
+To continue debugging, it's something required to view the CPU or Memory usage of a node or Pod.
+View the Node CPU/Memory status:  kubectl top node
+View the Pod CPU/Memory status:  kubectl top pod
+###
+
