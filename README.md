@@ -122,6 +122,7 @@ kubectl top pod
 Mark the Node as unschedulable to prevent new pods from being assigned to it:
 
 kubectl cordon <node_ID>
+
 kubectl drain <node_ID>
 
 Remove the Kubernetes Node:
